@@ -50,6 +50,9 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom splash selection animation speed. Default is 300 milliseconds.
   final int? splashSpeedInMilliseconds;
 
+  /// Optional to set scale value for active item scale animation. Default is null. Do not scale.
+  bool? enableActiveItemScale;
+
   /// Optional custom tab bar top-left corner radius. Default is 0.
   final double? leftCornerRadius;
 
@@ -127,6 +130,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.height,
     this.splashRadius = _defaultSplashRadius,
     this.splashSpeedInMilliseconds,
+    this.enableActiveItemScale,
     this.notchMargin,
     this.backgroundColor,
     this.splashColor,
@@ -150,8 +154,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.blurEffect = false,
   })  : assert(icons != null || itemCount != null),
         assert(
-          ((itemCount ?? icons!.length) >= 2) &&
-              ((itemCount ?? icons!.length) <= 5),
+          ((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5),
         ),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
@@ -177,6 +180,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     double? height,
     double? splashRadius,
     int? splashSpeedInMilliseconds,
+    bool? enableActiveItemScale,
     double? notchMargin,
     Color? backgroundColor,
     Color? splashColor,
@@ -206,6 +210,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           height: height,
           splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
+          enableActiveItemScale: enableActiveItemScale,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
           splashColor: splashColor,
@@ -238,6 +243,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     double? height,
     double? splashRadius,
     int? splashSpeedInMilliseconds,
+    bool? enableActiveItemScale,
     double? notchMargin,
     Color? backgroundColor,
     Color? splashColor,
@@ -265,6 +271,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           height: height,
           splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
+          enableActiveItemScale: enableActiveItemScale,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
           splashColor: splashColor,
@@ -286,12 +293,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() =>
-      _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState
-    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar>
+    with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   late AnimationController _bubbleController;
@@ -334,10 +340,12 @@ class _AnimatedBottomNavigationBarState
             _bubbleRadius = 0;
           }
 
-          if (bubbleCurve.value < 0.5) {
-            _iconScale = 1 + bubbleCurve.value;
-          } else {
-            _iconScale = 2 - bubbleCurve.value;
+          if (widget.enableActiveItemScale == true) {
+            if (bubbleCurve.value < 0.5) {
+              _iconScale = 1 + bubbleCurve.value;
+            } else {
+              _iconScale = 2 - bubbleCurve.value;
+            }
           }
         });
       });
@@ -457,12 +465,6 @@ class _AnimatedBottomNavigationBarState
   }
 }
 
-enum NotchSmoothness {
-  sharpEdge,
-  defaultEdge,
-  softEdge,
-  smoothEdge,
-  verySmoothEdge
-}
+enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
 
 enum GapLocation { none, center, end }

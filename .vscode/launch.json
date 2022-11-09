@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AnimatedBotNav(Dev)",
+            "request": "launch",
+            "type": "dart",
+            "program": "example/lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=AnimatedBotNav(Dev)",
+                "--dart-define", "DART_DEFINES_APP_SUFFIX=.dev",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://danhdue.com",
+                "--debug"
+            ]
+        },
+        {
+            "name": "AnimatedBotNav(Stg)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=AnimatedBotNav(Stg)",
+                "--dart-define", "DART_DEFINES_APP_SUFFIX=.stg",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://danhdue.com",
+                "--profile"
+            ]
+        },
+        {
+            "name": "AnimatedBotNav",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=AnimatedBotNav",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://danhdue.com",
+                "--release"
+            ]
+        }
+    ]
+}
